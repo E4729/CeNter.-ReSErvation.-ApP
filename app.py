@@ -818,22 +818,22 @@ if run_button:
         f"👥 회원 {total_members}명   |   📅 예약 신청 {total_reservations}건"
     )
 
-if review_items:
+    if review_items:
+
+        st.divider()
+
+        st.error(
+            f"⚠️ 검토 필요 {len(review_items)}건"
+        )
+
+        for item in review_items:
+
+            st.warning(
+                f"{item.name}\n\n"
+                f"사유 : {item.reason}\n\n"
+                f"원문 : {item.raw}"
+            )
 
     st.divider()
 
-    st.error(
-        f"⚠️ 검토 필요 {len(review_items)}건"
-    )
-
-    for item in review_items:
-
-        st.warning(
-            f"{item.name}\n\n"
-            f"사유 : {item.reason}\n\n"
-            f"원문 : {item.raw}"
-        )
-
-st.divider()
-
-st.code(copy_text)
+    st.code(copy_text)
