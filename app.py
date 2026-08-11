@@ -112,11 +112,15 @@ MEMO_RULES = {
         "포톤제외",
         "포톤 빼주세요",
         "포톤말고",
+        "포톤X",
+        "포톤x",
+        "포톤 X",
+        "포톤 x",
     ],
 
-    "D 상담": [
-        "원장님 상담",
+    "상담": [
         "상담",
+        "원장님 상담",
     ],
 
     "듀엣 희망": [
@@ -125,6 +129,11 @@ MEMO_RULES = {
 
     "1:1 희망": [
         "1:1",
+        "1 : 1",
+        "1대1",
+        "1대 1",
+        "1:1 희망",
+        "1대1 희망",
     ],
 
     "결제": [
@@ -134,6 +143,56 @@ MEMO_RULES = {
     "격일 희망": [
         "격일",
         "이틀 연속",
+    ],
+
+        "운동만": [
+        "운동만",
+    ],
+
+    "기기만": [
+        "기기만",
+        "케어만",
+    ],
+
+    "기기 2개": [
+        "기기2개",
+        "기기 2개",
+        "케어2개",
+        "케어 2개",
+    ],
+
+    "오전 시간대 희망": [
+        "오전 선호",
+        "오전희망",
+        "오전시간대",
+        "오전 시간대",
+        "오전 시간대 희망",
+    ],
+
+    "오후 시간대 희망": [
+        "오후 선호",
+        "오후희망",
+        "오후시간대",
+        "오후 시간대",
+        "오후 시간대 희망",
+    ],
+
+    "가장 빠른 시간": [
+        "가장빠른시간",
+        "가장 빠른 시간",
+        "빠른시간",
+        "빠른 시간",
+        "제일빠른시간",
+        "제일 빠른 시간",
+    ],
+
+    "그룹 제외": [
+        "그룹제외",
+        "그룹 제외",
+        "그룹X",
+        "그룹x",
+        "그룹 X",
+        "그룹 x",
     ],
 }
 
@@ -501,12 +560,11 @@ def parse_member_block(block: str) -> Member | None:
                 )
             )
 
-        else:
+        # 예약줄이든 일반 메모줄이든 항상 메모를 찾는다.
+        for memo in normalize_memos(line):
 
-            for memo in normalize_memos(line):
-
-                if memo not in member.memos:
-                    member.memos.append(memo)
+            if memo not in member.memos:
+                member.memos.append(memo)
 
     member.memos = list(dict.fromkeys(member.memos))
 
@@ -822,18 +880,19 @@ if run_button:
 
         st.divider()
 
-        st.error(
-            f"⚠️ 검토 필요 {len(review_items)}건"
-        )
+        with st.expander(
+            f"⚠️ 검토 필요 ({len(review_items)}건)",
+            expanded=False,
+        ):
 
-        for item in review_items:
+            for item in review_items:
 
-            st.warning(
-                f"{item.name}\n\n"
-                f"사유 : {item.reason}\n\n"
-                f"원문 : {item.raw}"
-            )
-
+                st.warning(
+                    f"{item.name}\n\n"
+                    f"사유 : {item.reason}\n\n"
+                    f"원문 : {item.raw}"
+                )
+                
     st.divider()
 
     st.code(copy_text)
